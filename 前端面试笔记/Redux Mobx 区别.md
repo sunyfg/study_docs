@@ -87,7 +87,7 @@ https://cn.mobx.js.org
 
 触发action，匹配到对应的reducer, 修改store中的数据，store中的数据发生改变，触发render方法，重新渲染页面UI
 
-![image-20230514145042814](/Users/sunyanfeng/Library/Application Support/typora-user-images/image-20230514145042814.png)
+![image-20230514145042814](./img/image-20230514145042814.png)
 
 ### Mobx 数据流
 

@@ -96,7 +96,7 @@
 
 ## 强制缓存
 
-![image-20230513233023832](/Users/sunyanfeng/Library/Application Support/typora-user-images/image-20230513233023832.png)
+![image-20230513233023832](./img/image-20230513233023832.png)
 
 ### Cache-Control
 
@@ -124,7 +124,7 @@
 * 服务器判断客户端资源，是否和服务端资源一样
 * 一致则返回 304，否则返回 200 和最新的资源
 
-![image-20230513233833670](/Users/sunyanfeng/Library/Application Support/typora-user-images/image-20230513233833670.png)
+![image-20230513233833670](./img/image-20230513233833670.png)
 
 ### 资源标识
 
@@ -171,3 +171,21 @@
 
 ![image-20230514000547335](./img/image-20230514000547335.png)
 
+# 跨域请求为何发送 Options 请求？
+
+* JSONP
+  * 页面中定义一个全局函数（onSuccess）
+  * 接口返回一个字符串调用全局方法（onSuccess）
+  * onSuccess 接收到接口数据
+* CORS   在服务端设置请求头
+  * Access-Control-Allow-Origin - `*` or `指定域名`
+  * Access-Control-Allow-Headers - `X-Requested-With`
+  * Access-Control-Allow-Methods - `GET,PUT,POST,PATCH,DELETE,OPTIONS`
+  * Access-Control-Allow-Credentials - `true` 允许跨域接收 cookie
+
+* options 请求，是跨域请求之前的预检查
+  * 比如发起一个 GET 请求，浏览器先发起一个options到服务器看下是否支持 get 请求跨域
+  * 浏览器自行发起，可忽略
+  * 不影响功能
+
+![image-20230516193442250](./img/image-20230516193442250.png)
