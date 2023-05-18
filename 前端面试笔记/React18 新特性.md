@@ -252,7 +252,7 @@ export default App;
 
 我们在开发时，偶尔会遇到以下错误：
 
-![image-20230518172818626](/Users/sunyanfeng/Library/Application Support/typora-user-images/image-20230518172818626.png)
+![image-20230518172818626](./img/image-20230518172818626.png)
 
 这个错误表示：**无法对未挂载（已卸载）的组件执行状态更新。这是一个无效操作，并且表明我们的代码中存在内存泄漏**。
 
@@ -279,7 +279,67 @@ export default App;
 
 为了解决社区对这个问题的困惑，在 `React 18` 中，官方取消了这个限制。如果你安装了`React DevTools`，第二次渲染的日志信息将显示为灰色，以柔和的方式显式在控制台。
 
+![image-20230518192042636](./img/image-20230518192042636.png)
+
+官方解释：https://github.com/reactwg/react-18/discussions/96
+
 ## Suspense 不再需要 fallback 来捕获
 
 在 `React 18` 的 `Suspense` 组件中，官方对 `空的fallback` 属性的处理方式做了改变：不再跳过 `缺失值` 或 `值为null` 的 `fallback` 的 `Suspense` 边界。相反，会捕获边界并且向外层查找，如果查找不到，将会把 `fallback` 呈现为 `null`。
+
+### 更新前
+
+以前，如果你的 `Suspense` 组件没有提供 `fallback` 属性，React 就会悄悄跳过它，继续向上搜索下一个边界：
+
+```tsx
+// React 17
+const App = () => {
+  return (
+    <Suspense fallback={<Loading />}> // 这个边界被使用，显示 Loading 组件
+      <Suspense>                      // 这个边界被跳过，没有 fallback 属性
+        <Page />
+      </Suspense>
+    </Suspense>
+  );
+};
+
+export default App;
+```
+
+React 工作组发现这可能会导致混乱、难以调试的情况发生。例如，你正在debug一个问题，并且在没有 `fallback` 属性的 `Suspense` 组件中抛出一个边界来测试一个问题，它可能会带来一些意想不到的结果，并且 `不会警告` 说它 `没有fallback` 属性。
+
+### 更新后
+
+现在，React 将使用当前组件的 `Suspense` 作为边界，即使当前组件的 `Suspense` 的值为 `null` 或 `undefined`：
+
+```tsx
+// React 18
+const App = () => {
+  return (
+    <Suspense fallback={<Loading />}> // 不使用
+      <Suspense>                      // 这个边界被使用，将 fallback 渲染为 null
+        <Page />
+      </Suspense>
+    </Suspense>
+  );
+};
+
+export default App;
+```
+
+这个更新意味着我们`不再跨越边界组件`。相反，我们将在边界处捕获并呈现 `fallback`，就像你提供了一个返回值为 `null` 的组件一样。这意味着被挂起的 `Suspense` 组件将按照预期结果去执行，如果忘记提供 `fallback` 属性，也不会有什么问题。
+
+官方解释：https://github.com/reactwg/react-18/discussions/72
+
+## 新的 API
+
+### useId
+
+```js
+const id = useId();
+```
+
+支持同一个组件在客户端和服务端生成相同的唯一的 ID，避免 `hydration` 的不兼容，这解决了在 `React 17` 及 `17` 以下版本中已经存在的问题。因为我们的服务器渲染时提供的 `HTML` 是`无序的`，`useId` 的原理就是每个 `id` 代表该组件在组件树中的层级结构。
+
+官方解释：https://github.com/reactwg/react-18/discussions/111
 
