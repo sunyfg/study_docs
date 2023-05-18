@@ -17,18 +17,18 @@
 * 如一些简单的公共信息：主题色、语言等
 * 复杂的公共信息，请使用 Redux 
 
-## shouldComponentUpda 用途？
+## shouldComponentUpdate 用途？
 
 * 性能优化
 * 配合「不可变值」一起使用，否则会出错
 
 ## redux 单项数据流？
 
-![image-20230514145042814](/Users/sunyanfeng/Library/Application Support/typora-user-images/image-20230514145042814.png)
+![image-20230514145042814](./img/image-20230514145042814.png)
 
 ## setState 场景题
 
-![image-20230514145122336](/Users/sunyanfeng/Library/Application Support/typora-user-images/image-20230514145122336.png)
+![image-20230514145122336](./img/image-20230514145122336.png)
 
 ## 什么是纯函数？
 
