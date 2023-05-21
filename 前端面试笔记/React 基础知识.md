@@ -61,7 +61,7 @@ React 17 开始，事件不再绑定在 document 上。
   * DOM 事件，setTimeout：异步更新，合并 state
   * Automatic Batching 自动批处理
 
-# 组件生命周期
+# 组件生命周期 
 
 https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
 
@@ -120,3 +120,18 @@ https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
 
 
 
+
+
+## React 组件声明周期分三个阶段
+
+### 挂载阶段：
+
+constructor => getDerivedStateFromProps => render => 【更新DOM和refs】  => componentDidMount
+
+### 更新阶段：
+
+【props | state | forceUpdate】 => getDerivedFromProps => shouldComponentUpdate => render => getSnapshotBeforeUpdate  => 【更新dom和refs】 => componentDidUpdate
+
+### 卸载阶段：
+
+componentWillUnmount
