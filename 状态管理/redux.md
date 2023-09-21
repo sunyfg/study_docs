@@ -130,11 +130,34 @@ function counterReducer(state = initialState, action) {
 
 当前Redux应用程序状态驻留在一个称为store的对象中。
 
+可以通过传入一个 `reducer` 来创建 `store` ， 它有一个方法 `getState` ，用于返回当前 `state` 的值。
 
+```js
+import { configureStore } from '@reduxjs/toolkit'
 
+const store = configureStore({ reducer: counterReducer })
 
+console.log(store.getState())
+// {value: 0}
+```
 
+### Dispatch
 
+Redux store 有一个名叫`dispatch` 的方法。它是唯一可以更新 `state` 的方法，你可以通过调用 `store.dispatch()` 并且传入一个 `action` 对象。在内部，`store` 会执行它的 `reducer` 函数，并且保存新的`state vlaue` , 我们可以通过调用 `getState()`  获取到更新后的值。
+
+```js
+store.dispatch({
+    type:'counter/increment'
+})
+console.log(store.getState())
+// {value: 1}
+```
+
+你可以认为 `dispatching actinos` 是 “触发一个事件”。整个流程就是： 在某些情况下，我们需要拿到 `store` 来并分析它。 `Reducers` 行为就像事件监听器，当它们监听到感兴趣的操作时，就会更新状态作为响应。
+
+### Selectors
+
+`Selectors` 是一些列函数，它知道如何从一个 `store state` 中提取指定的一部分
 
 
 
